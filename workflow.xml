@@ -8,11 +8,9 @@
       </param>
       <param name='runcmd' label='Run command' type='text' value='ls' help='Name of the script or command to run from inside the run directory' width='50%_none'>
       </param>
-      <param name='iterations' label='Iterations' type='integer' min='1' max='10' value='1' help='Number of times to execute command' width='50%'>
+      <param name='sleep_time' label='Sleep Time' type='integer' min='1' max='100' value='1' help='Number of seconds to sleep' width='50%'>
       </param>
-    </section>
-    <section name='advanced' type='section' title='Advanced Options' expanded='false'>
-      <param name='switch' type='boolean' truevalue='Yes' falsevalue='No' checked='false' label='Example Yes/No switch' help='This does not do anything, yet.' width='50%_none' optional='true' float='right'>
+      <param name='head_or_worker' type='boolean' truevalue='Head Node' falsevalue='Worker' checked='false' label='Which type of node to run on?' help='Select whether to run on the head node or a worker node' width='50%_none' float='right'>
       </param>
     </section>
   </inputs>

@@ -83,13 +83,16 @@ echo
 ssh -f -N $WFP_whost
 
 echo Very simple option to just launch a command.
-ssh -f ${ssh_options} $WFP_whost srun -n ${WFP_iterations} hostname
+ssh -f ${ssh_options} $WFP_whost srun -n 1 hostname
 
-echo Change directory and then run on a compute node.
-ssh -f ${ssh_options} $WFP_whost sbatch --wrap "\"cd ${WFP_rundir}; ${WFP_runcmd}; sleep 100; echo Runcmd done1 >> ~/job.exit\""
-
-echo Change directory and then run on the head node.
-ssh -f ${ssh_options} $WFP_whost "cd ${WFP_rundir}; ${WFP_runcmd}; sleep 100; echo Runcmd done2 >> ~/job.exit"
+if [ ${WFP_head_or_worker} = "False" ]
+then
+    echo Change directory and then run on a compute node.
+    ssh -f ${ssh_options} $WFP_whost sbatch --wrap "\"cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done1 >> ~/job.exit\""
+else
+    echo Change directory and then run on the head node.
+    ssh -f ${ssh_options} $WFP_whost "cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done2 >> ~/job.exit"
+fi
 
 # Another approach to doing the cd && run on the head node is to create an explicit wrapper script
 #ssh_args=$(echo $@ | sed "s/--/arg--/g")
