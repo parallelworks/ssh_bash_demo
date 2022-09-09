@@ -1,0 +1,21 @@
+<tool id='placeholder_id' name='placeholder_name'>
+  <command interpreter='bash'>main.sh</command>
+  <inputs>
+    <section name='commands' type='section' conditional='[object Object],[object Object]' title='Commands' expanded='true'>
+      <param name='whost' label='Workflow host' type='text' value='resource.clusters.pw' help='Use PoolName.clusters.pw for cloud clusters or user@host_ip otherwise' width='50%_none'>
+      </param>
+      <param name='rundir' label='Run directory' type='text' value='/var' help='Path to the job directory on the host. In general, the compute nodes have access to this directory.' width='50%_none'>
+      </param>
+      <param name='runcmd' label='Run command' type='text' value='ls' help='Name of the script or command to run from inside the run directory' width='50%_none'>
+      </param>
+      <param name='iterations' label='Iterations' type='integer' min='1' max='10' value='1' help='Number of times to execute command' width='50%'>
+      </param>
+    </section>
+    <section name='advanced' type='section' title='Advanced Options' expanded='false'>
+      <param name='switch' type='boolean' truevalue='Yes' falsevalue='No' checked='false' label='Example Yes/No switch' help='This does not do anything, yet.' width='50%_none' optional='true' float='right'>
+      </param>
+    </section>
+  </inputs>
+  <outputs>
+  </outputs>
+</tool>
