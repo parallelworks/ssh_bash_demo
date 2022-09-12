@@ -11,7 +11,4 @@ three environment variables in advance:
 2. PW_API_KEY: the API key associated with a PW user account, and
 3. PW_USER: the PW user account associated with the API key, above.
 
-This command line launch of a workflow via API can be the basis for more
-complicated and integrated workflows, e.g. [weather-cluster-demo](https://github.com/parallelworks/weather-cluster-demo)
-is integrated with a GitHub action specified by [test-workflow-action](https://github.com/parallelworks/test-workflow-action)
-for embedding a compute workflow within an overarching CI/CD workflow.
+The API key must be treated with the same level of care as a password.
