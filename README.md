@@ -1,15 +1,19 @@
 # ssh_bash_demo
 
-Simple demonstration workflow using SSH to submit jobs.
+Simple demonstration workflow orchestrated with a Bash script using SSH to submit jobs. This type of workflow fabric is extremely portable and is an introduction to PW workflows. For more complicated workflows (e.g. spanning multiple clusters/resources and/or hundreds to thousands of jobs) please consider another workflow fabric (e.g. [Parsl](https://parsl-project.org/)).
 
-## Overview
+## Overview and Usage
 
-This workflow is designed to be used to test launching a job on a cluster. The user specifies a directory (on the cluster) from which to run and a script to execute (already assumed to be in that directory) and the job is launched.  The default values correspond to the following terminal session:
+This workflow is designed to be used to test launching a job on a cluster. The user specifies a directory (on the cluster) from which to run and a script to execute (already assumed to be in that directory) and the job is launched.  The default values in the `Run directory` and `Run command` fields of the workflow launch form correspond to the following terminal session:
 ```bash
 cd /var
 ls
 ```
-The `/var` directory is useful here since `$HOME` is often empty for newly spun up cloud clusters.
+The `/var` directory is useful here since `$HOME` is often empty for newly spun up cloud clusters. The user also needs to specify which cluster to send the commands.  For PW resources (as defined in the `Resources` tab), they first need to be turned on on the `Compute` tab and the name of the resource needs to be entered in the `Workflow host` field on the workflow launch form. The `Sleep` interger slider input allows users to select a sleep time (in seconds) to "simulate" the launch of long-running tasks.
+
+The `Which type of node to run on?` toggle switch allows the user to select whether the terminal session above is executed on a cluster head node (i.e. for launching an MPI job) or directly on a worker node (i.e. mediated by `sbatch`). Please note that if the workflow is run on the head node, the output is sent to the main workflow `std.out` in the resulting `/pw/jobs/<job_id>` directory **on the PW platform**.  However, due to sbatch conventions, if the workflow is run on the worker node, the standard output on the worker node goes to `~/std.out.<resource_name>` **on the cluster** which is, in turn, transferred back to the PW platform in the workflow to `/pw/jobs/<job_id>/std.out.<resource_name>`.
+
+Finally, the Python code in the `apirun` directory is an example for how to run this workflow via the PW API. This allows the user to specify the workflow inputs (i.e. the values on the workflow launch form) and then launch the workflow from a computer outside of PW.  The user is authenticated to PW via their API key. This API key must be treated with the same level of care as a password. Please see `./apirun/README.md` for more information.
 
 ## Contents
 

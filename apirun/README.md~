@@ -1,0 +1,11 @@
+# Launching ssh_bash_demo with the PW API
+
+The scripts in this directory are an example for how to launch a PW workflow
+from another computer via a PW account's API key. The script `main.sh` contains
+all the relevant command line launch options including the command to launch
+the API request and all the options required by the workflow itself.
+
+Please note that in order for `main.sh` to run, the user needs to specify
+three environment variables:
+1. PW_USER: a PW user account
+2. 

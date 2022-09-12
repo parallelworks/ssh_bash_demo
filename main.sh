@@ -32,7 +32,7 @@ echo $@
 #----------HELPER FUNCTIONS-----------
 # Function to read arguments in format "--pname pval" into
 # export WFP_<pname>=<pval>.  All varnames are prefixed
-# with WFP_ short for workflow parameter.
+# with WFP_ to designate workflow parameter.
 f_read_cmd_args(){
     index=1
     args=""
@@ -41,8 +41,12 @@ f_read_cmd_args(){
 	if [[ ${prefix} == '--' ]]; then
 	    pname=$(echo $@ | cut -d ' ' -f${index} | sed 's/--//g')
 	    pval=$(echo $@ | cut -d ' ' -f$((index + 1)))
-	    echo "export WFP_${pname}=${pval}" >> $(dirname $0)/env.sh
-	    export "WFP_${pname}=${pval}"
+	    # To support empty inputs (--a 1 --b --c 3)
+	    # Empty inputs are ignored and no env var is assigned.
+	    if [ ${pval:0:2} != "--" ]; then
+		echo "export WFP_${pname}=${pval}" >> $(dirname $0)/env.sh
+		export "WFP_${pname}=${pval}"
+	    fi
 	fi
 	index=$((index+1))
     done
@@ -87,10 +91,15 @@ ssh -f ${ssh_options} $WFP_whost srun -n 1 hostname
 
 if [ ${WFP_head_or_worker} = "False" ]
 then
-    echo Change directory and then run on a compute node.
-    ssh -f ${ssh_options} $WFP_whost sbatch --wrap "\"cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done1 >> ~/job.exit\""
+    echo "Run on a compute node: cd rundir;  runcmd"
+    ssh -f ${ssh_options} $WFP_whost sbatch --output=std.out.${WFP_whost} --wrap "\"cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done1 >> ~/job.exit\""
+
+    echo "Stage back compute node log file"
+    # Although SSH implicitly adds a username, sync requires
+    # explicit listing of the username.
+    rsync ${PW_USER}@${WFP_whost}:~/std.out.${WFP_whost} ./
 else
-    echo Change directory and then run on the head node.
+    echo "Run on the head node: cd rundir; runcmd"
     ssh -f ${ssh_options} $WFP_whost "cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done2 >> ~/job.exit"
 fi
 
@@ -111,5 +120,8 @@ fi
 #EOT
 
 #timeout 1200 bash wait-job.sh
+
+# Disconnect SSH Multiplex connection
+ssh -O exit $WFP_whost
 
 echo Done!
