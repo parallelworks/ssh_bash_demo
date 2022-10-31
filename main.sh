@@ -67,6 +67,18 @@ env | grep WFP_
 echod Testing echod. Currently on `hostname`.
 echod Will excute as $PW_USER@$WFP_whost
 
+# Check if there are spaces in runcmd:
+if [ ${WFP_spaces_in_runcmd} = "False" ]
+then
+    echod No spaces in runcmd, proceed as normal.
+else
+    echod There are spaces in runcmd, need to change _ to space.
+    echod Original runcmd: $WFP_runcmd
+    runcmd_tmp=$WFP_runcmd
+    export WFP_runcmd=$(echo ${runcmd_tmp} | sed 's/_/ /g')
+    echod Filtered runcmd: $WFP_runcmd
+fi
+
 #===============================
 # Run things
 #===============================
