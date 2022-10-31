@@ -87,7 +87,14 @@ echo
 ssh -f -N $WFP_whost
 
 echo Very simple option to just launch a command.
-ssh -f ${ssh_options} $WFP_whost srun -n 1 hostname
+# This line works, but since it uses srun, it will launch
+# a worker node.  This slows down testing/adds additional
+# failure points if the user specifies running on the
+# head node only.
+#ssh -f ${ssh_options} $WFP_whost srun -n 1 hostname
+#
+# This command only talks to the head node
+ssh -f ${ssh_options} $WFP_whost hostname
 
 if [ ${WFP_head_or_worker} = "False" ]
 then
