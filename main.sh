@@ -95,10 +95,10 @@ echo
 # simulate long running jobs.
 
 # Start an SSH mulitplex connection.  This may help prevent SSH timeouts
-# (see below).
+# (see below). -f => run in background, -N => do not execute any command
 ssh -f -N $WFP_whost
 
-echo Very simple option to just launch a command.
+echod "Check connection to cluster"
 # This line works, but since it uses srun, it will launch
 # a worker node.  This slows down testing/adds additional
 # failure points if the user specifies running on the
@@ -110,9 +110,27 @@ ssh -f ${ssh_options} $WFP_whost hostname
 
 if [ ${WFP_head_or_worker} = "False" ]
 then
-    echo "Run on a compute node: cd rundir;  runcmd"
+    echod "Run on a compute node: cd rundir;  runcmd"
     ssh -f ${ssh_options} $WFP_whost sbatch --output=std.out.${WFP_whost} --wrap "\"cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done1 >> ~/job.exit\""
 
+    echod "Monitoring status of the run"
+    # If the worker takes longer the spin up and do the task
+    # than the sleep time, then the staging of data back to here
+    # will fail because the output file does not exist yet.
+    # Check if there are any other running jobs on the cluster
+    # by counting the number of lines in squeue output. One
+    # line is the header line => no jobs are running.  Anything
+    # more than 1 means that there is at least one job running.
+    n_jobs="2"
+    while [ $n_jobs -gt 1 ]
+    do
+	n_jobs=$(ssh ${ssh_options} $WFP_whost squeue | wc -l )
+	echod "Found "${n_jobs}" lines in squeue."
+	echod "Will wait "${WFP_sleep_time}" seconds."
+	sleep ${WFP_sleep_time}
+    done
+    echod "No more pending jobs in squeue."
+    
     echo "Stage back compute node log file"
     # Although SSH implicitly adds a username, sync requires
     # explicit listing of the username.
@@ -120,6 +138,8 @@ then
 else
     echo "Run on the head node: cd rundir; runcmd"
     ssh -f ${ssh_options} $WFP_whost "cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done2 >> ~/job.exit"
+
+    echo "No monitoring or staging back necessary b/c there is no worker to spin up."
 fi
 
 # Another approach to doing the cd && run on the head node is to create an explicit wrapper script
