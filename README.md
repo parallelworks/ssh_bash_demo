@@ -15,6 +15,8 @@ The `Which type of node to run on?` toggle switch allows the user to select whet
 
 Finally, the Python code in the `apirun` directory is an example for how to run this workflow via the PW API. This allows the user to specify the workflow inputs (i.e. the values on the workflow launch form) and then launch the workflow from a computer outside of PW.  The user is authenticated to PW via their API key. This API key must be treated with the same level of care as a password. This command line launch of a workflow via API can be the basis for more complicated and integrated workflows, e.g. [weather-cluster-demo](https://github.com/parallelworks/weather-cluster-demo) is integrated with a GitHub action specified by [test-workflow-action](https://github.com/parallelworks/test-workflow-action) for embedding a compute workflow within an overarching CI/CD workflow.
 
+This workflow has been set up to run the `github.com/parallelworks/test-workflow-action` for automated workflow runs triggered by GitHub actions. Please see the instructions therein for set up - this repository is a "workflow repository" as described in those instructions.
+
 ## Contents
 
 + `workflow.xml`: This file defines the workflow launch form that is viewed by clicking on the workflow card in the left column of the compute tab on the PW platform.
