@@ -15,4 +15,4 @@ ${CONDA_PYTHON_EXE} run_workflow.py \
     ${PW_USER} \
     gcev2 \
     ssh_bash_demo \
-    '{"commands|whost": "gcev2.clusters.pw", "commands|rundir": "/var", "commands|runcmd": "ls", "commands|spaces_in_runcmd": "False", "commands|sleep_time": "3", "commands|head_or_worker": "False"}'
+    '{"commands|whost": "gcev2.clusters.pw", "commands|rundir": "/var", "commands|runcmd": "ls -a -l -h", "commands|spaces_in_runcmd": "True", "commands|sleep_time": "10", "commands|head_or_worker": "False"}'
