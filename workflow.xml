@@ -2,17 +2,55 @@
   <command interpreter='bash'>main.sh</command>
   <inputs>
     <section name='commands' type='section' conditional='[object Object],[object Object]' title='Commands' expanded='true'>
-      <param name='whost' label='Workflow host' type='text' value='resource.clusters.pw' help='Use PoolName.clusters.pw for cloud clusters or user@host_ip otherwise' width='50%_none'>
+      <param name='whost'
+	     label='Workflow host'
+	     type='text'
+	     value='cloud.clusters.pw'
+	     help='Use PoolName.clusters.pw for cloud clusters or user@host_ip otherwise'
+	     width='50%_none'>
       </param>
-      <param name='rundir' label='Run directory' type='text' value='/var' help='Path to the job directory on the host. In general, the compute nodes have access to this directory.' width='50%_none'>
+      <param name='rundir'
+	     label='Run directory'
+	     type='text'
+	     value='/var'
+	     help='Path to the job directory on the host. In general, the compute nodes have access to this directory.'
+	     width='50%_none'>
       </param>
-      <param name='runcmd' label='Run command' type='text' value='ls' help='Name of the script or command to run from inside the run directory' width='50%_none'>
+      <param name='runcmd'
+	     label='Run command'
+	     type='text'
+	     value='ls'
+	     help='Name of the script or command to run from inside the run directory'
+	     width='50%_none'>
       </param>
-      <param name='spaces_in_runcmd' type='boolean' truevalue='Yes' falsevalue='No' checked='false' label='Are there spaces (flags) in the run command, above?' help='By default, spaces between flags are turned into _.  With True, a filter is engaged that will convert them back to spaces. Note that this fiter is not sophisticated, it will change ANY _ to spaces, including _ in the command name or flag names.' width='50%_none' float='right'>
+      <param name='spaces_in_runcmd'
+	     type='boolean'
+	     truevalue='Yes'
+	     falsevalue='No'
+	     checked='false'
+	     label='Are there spaces (flags) in the run command, above?'
+	     help='By default, spaces between flags are turned into _.  With True, a filter is engaged that will convert them back to spaces. Note that this fiter is not sophisticated, it will change ANY _ to spaces, including _ in the command name or flag names.'
+	     width='50%_none'
+	     float='right'>
       </param>
-      <param name='sleep_time' label='Sleep Time' type='integer' min='1' max='100' value='1' help='Number of seconds to sleep' width='50%'>
+      <param name='sleep_time'
+	     label='Sleep Time'
+	     type='integer'
+	     min='1'
+	     max='100'
+	     value='1'
+	     help='Number of seconds to sleep'
+	     width='50%'>
       </param>
-      <param name='head_or_worker' type='boolean' truevalue='Head Node' falsevalue='Worker' checked='false' label='Which type of node to run on?' help='Select whether to run on the head node or a worker node' width='50%_none' float='right'>
+      <param name='head_or_worker'
+	     type='boolean'
+	     truevalue='Head Node'
+	     falsevalue='Worker'
+	     checked='false'
+	     label='Which type of node to run on?'
+	     help='Select whether to run on the head node or a worker node'
+	     width='50%_none'
+	     float='right'>
       </param>
     </section>
   </inputs>
