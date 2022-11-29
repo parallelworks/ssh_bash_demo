@@ -14,6 +14,6 @@ jobs:
           pw-user-host: 'cloud.parallel.works'
           pw-api-key: ${{ secrets.PW_API_KEY }}
           pw-user: 'sfgary'
-          resource-pool-names: 'gcev2'
+          resource-pool-names: 'cloud'
           workflow-name: 'ssh_bash_demo'
-          workflow-parameters: '{"commands|whost": "gcev2.clusters.pw", "commands|rundir": "/var", "commands|runcmd": "ls -a -l -h", "commands|spaces_in_runcmd": "True", "commands|sleep_time": "10", "commands|head_or_worker": "False"}'
+          workflow-parameters: '{"commands|whost": "cloud.clusters.pw", "commands|rundir": "/var", "commands|runcmd": "ls -a -l -h", "commands|spaces_in_runcmd": "True", "commands|sleep_time": "10", "commands|head_or_worker": "False"}'
