@@ -15,7 +15,7 @@ jobnum=$(basename ${PWD})
 ssh_options="-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 wfname=ssh-bash-demo
 
-echo Starting ssh_bash_demo workflow...
+echo Starting $wfname workflow...
 echo Execution is in main.sh, launched from the workflow.xml.
 echo Running in $jobdir with job number: $jobnum
 echo
@@ -118,8 +118,9 @@ echod "Check connection to cluster"
 # head node only.
 #ssh -f ${ssh_options} $WFP_whost srun -n 1 hostname
 #
-# This command only talks to the head node
-ssh -f ${ssh_options} $WFP_wuser@$WFP_whost hostname
+# This command only talks to the head node, removed -f; no
+# need to run in the background.
+ssh ${ssh_options} $WFP_wuser@$WFP_whost hostname
 
 if [ ${WFP_head_or_worker} = "False" ]
 then
