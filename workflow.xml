@@ -2,6 +2,12 @@
   <command interpreter='bash'>main.sh</command>
   <inputs>
     <section name='commands' type='section' conditional='[object Object],[object Object]' title='Commands' expanded='true'>
+      <param name='wuser'
+	     label='User name'
+	     type='text'
+	     value='$PW_USER'
+	     help='Username for account on the Workflow Host'>
+      </param>
       <param name='whost'
 	     label='Workflow host'
 	     type='text'
@@ -49,6 +55,15 @@
 	     checked='false'
 	     label='Which type of node to run on?'
 	     help='Select whether to run on the head node or a worker node'
+	     width='50%_none'
+	     float='right'>
+      </param>
+      <param name='slurm_or_pbs'
+	     type='boolean'
+	     truevalue='SLURM'
+	     falsevalue='PBS'
+	     label='Which scheduler is on the cluster?'
+	     help='Select whether this is a SLURM or PBS cluster.'
 	     width='50%_none'
 	     float='right'>
       </param>
