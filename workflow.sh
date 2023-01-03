@@ -91,7 +91,7 @@ else
 fi
 
 #===============================
-# Run things
+# Run the workflow
 #===============================
 echo
 echo ==========================================================
@@ -100,14 +100,16 @@ echo ==========================================================
 echo
 
 # Everything that follows "ssh user@host" is a command executed on the host.
-# If the host is a cluster head node, then srun/sbatch sends the execution to a
-# compute node. The wrap option allows for multiple commands (changing to the
+# If the host is a cluster head node, then for SLURM clusters, srun/sbatch 
+# sends the execution to a compute node. For PBS clusters, qsub is used.
+# The sbatch --wrap option allows for multiple commands (changing to the
 # work directory, then launching the job). Sleep commands are inserted to
 # simulate long running jobs.
 
 # Start an SSH mulitplex connection.  This may help prevent SSH timeouts
 # (see below). -f => run in background, -N => do not execute any command
-ssh -f -N $WFP_whost
+# This is not necessary with the new PW V2 cluster provider.
+#ssh -f -N $WFP_wuser@$WFP_whost
 
 echod "Check connection to cluster"
 # This line works, but since it uses srun, it will launch
@@ -117,12 +119,12 @@ echod "Check connection to cluster"
 #ssh -f ${ssh_options} $WFP_whost srun -n 1 hostname
 #
 # This command only talks to the head node
-ssh -f ${ssh_options} $WFP_whost hostname
+ssh -f ${ssh_options} $WFP_wuser@$WFP_whost hostname
 
 if [ ${WFP_head_or_worker} = "False" ]
 then
     echod "Run on a compute node: cd rundir;  runcmd"
-    ssh -f ${ssh_options} $WFP_whost sbatch --output=std.out.${WFP_whost} --wrap "\"cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done1 >> ~/job.exit\""
+    ssh -f ${ssh_options} $WFP_wuser@$WFP_whost sbatch --output=std.out.${WFP_whost} --wrap "\"cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done1 >> ~/job.exit\""
 
     echod "Monitoring status of the run"
     # If the worker takes longer the spin up and do the task
@@ -135,7 +137,7 @@ then
     n_jobs="2"
     while [ $n_jobs -gt 1 ]
     do
-	n_jobs=$(ssh ${ssh_options} $WFP_whost squeue | wc -l )
+	n_jobs=$(ssh ${ssh_options} $WFP_wuser@$WFP_whost squeue | wc -l )
 	echod "Found "${n_jobs}" lines in squeue."
 	echod "Will wait "${WFP_sleep_time}" seconds."
 	sleep ${WFP_sleep_time}
@@ -145,10 +147,10 @@ then
     echo "Stage back compute node log file"
     # Although SSH implicitly adds a username, sync requires
     # explicit listing of the username.
-    rsync ${PW_USER}@${WFP_whost}:~/std.out.${WFP_whost} ./
+    rsync ${WFP_wuser}@${WFP_whost}:~/std.out.${WFP_whost} ./
 else
     echo "Run on the head node: cd rundir; runcmd"
-    ssh -f ${ssh_options} $WFP_whost "cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done2 >> ~/job.exit"
+    ssh -f ${ssh_options} $WFP_wuser@$WFP_whost "cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done2 >> ~/job.exit"
 
     echo "No monitoring or staging back necessary b/c there is no worker to spin up."
 fi
@@ -172,6 +174,9 @@ fi
 #timeout 1200 bash wait-job.sh
 
 # Disconnect SSH Multiplex connection
-ssh -O exit $WFP_whost
+# This is unnecessary with the new PW V2 cluster provider that
+# automatically cleans up multiplex sockets when the resource
+# is turned on.
+#ssh -O exit $WFP_wuser@$WFP_whost
 
 echo Done!
