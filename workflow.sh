@@ -57,15 +57,26 @@ echod() {
     echo $(date): $@
     }
 
+# Testing echod
+echod Testing echod. Currently on `hostname`.
+
 # Convert command line inputs to environment variables.
 f_read_cmd_args $@
 
 # List of input arguments converted to environment vars:
+echo "====== Environment variables passed from workflow.xml ======"
 env | grep WFP_
+echo "================ Done with env. var. list =================="
 
-# Testing echod
-echod Testing echod. Currently on `hostname`.
-echod Will excute as $PW_USER@$WFP_whost
+# Autodetect user
+if [ ${WFP_wuser} = "__USER__" ]
+then
+    echod Changing $WFP_wuser to ${PW_USER}
+    export WFP_wuser=${PW_USER}
+    echod WFP_wuser is $WFP_wuser
+fi
+
+echod Will excute workflow on remote as $WFP_wuser@$WFP_whost
 
 # Check if there are spaces in runcmd:
 if [ ${WFP_spaces_in_runcmd} = "False" ]

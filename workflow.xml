@@ -5,8 +5,8 @@
       <param name='wuser'
 	     label='User name'
 	     type='text'
-	     value='$PW_USER'
-	     help='Username for account on the Workflow Host'
+	     value='__USER__'
+	     help='Username for account on the Workflow Host. Your PW account username will automatically substitute __USER__; other values will be treated as typed.'
 	     width='50%_none'>
       </param>
       <param name='whost'
