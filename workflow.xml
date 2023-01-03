@@ -1,12 +1,13 @@
 <tool id='placeholder_id' name='placeholder_name'>
-  <command interpreter='bash'>main.sh</command>
+  <command interpreter='bash'>workflow.sh</command>
   <inputs>
     <section name='commands' type='section' conditional='[object Object],[object Object]' title='Commands' expanded='true'>
       <param name='wuser'
 	     label='User name'
 	     type='text'
 	     value='$PW_USER'
-	     help='Username for account on the Workflow Host'>
+	     help='Username for account on the Workflow Host'
+	     width='50%_none'>
       </param>
       <param name='whost'
 	     label='Workflow host'

@@ -20,15 +20,31 @@ This workflow has been set up to run the `github.com/parallelworks/test-workflow
 ## Contents
 
 + `workflow.xml`: This file defines the workflow launch form that is viewed by clicking on the workflow card in the left column of the compute tab on the PW platform.
-+ `main.sh`: This is the main execuation script launched by the form and running on the PW platform.  This script does *not* execute on the remote cluster.  Rather, it sends commands to the cluster.
++ `workflow.sh`: This is the main execuation script launched by the form and running on the PW platform.  This script does *not* execute on the remote cluster.  Rather, it sends commands to the cluster.
 + `ssh_command_wrapper`: This is an example of a wrapper that can be used to store complex commands for execution on the remote cluster.
++ `thumb`: Sample thumbnail image for GitHub-integrated workflow
++ `github.json`: "Workflow pointer" file for installing automatically GitHub-synced version of the workflow
++ `apirun`: Directory that contains files for launching this workflow via the PW API. Please see documentation in that directory for more information.
 
 ## Installation on the PW platform
 
-If this workflow is not available in the PW Marketplace (globe icon in the upper right corner), then please download and install it from GitHub with the following steps:
+If this workflow is not available in the PW Marketplace (globe icon in the upper right corner), then please download and install it from GitHub in one of two ways.
+
+### GitHub synced workflow
+
+To install this workflow so that it automatically gets 
+the updated version from GitHub each time it runs, please 
+install this workflow with the following steps:
 1. Create a new workflow on the PW platform.
 2. Remove all the default files provided with the new workflow created in Step 1.
-3. Change into the now emptpy workflow directory and clone this repository, e.g.
+3. Add the file `github.json` from this repository into the workflow directory.
+
+### Direct install
+
+To have greater control over if/when you recieve updates to this workflow, please install this workflow with the following steps:
+1. Create a new workflow on the PW platform.
+2. Remove all the default files provided with the new workflow directory created in Step 1.
+3. Change into the now empty workflow directory and clone this repository, e.g.
 ```bash
 git clone https://githhub.com/parallelworks/ssh_bash_demo .
 ```
