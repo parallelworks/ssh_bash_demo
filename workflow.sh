@@ -125,7 +125,7 @@ ssh ${ssh_options} $WFP_wuser@$WFP_whost hostname
 if [ ${WFP_head_or_worker} = "False" ]
 then
     echod "Run on a compute node: cd rundir;  runcmd"
-    ssh -f ${ssh_options} $WFP_wuser@$WFP_whost sbatch --output=std.out.${WFP_whost} --wrap "\"cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done1 >> ~/job.exit\""
+    ssh -f ${ssh_options} $WFP_wuser@$WFP_whost sbatch --output=${WFP_rundir}/std.out.${WFP_whost} --wrap "\"cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done1 >> ~/job.exit\""
 
     echod "Monitoring status of the run"
     # If the worker takes longer the spin up and do the task
@@ -148,7 +148,7 @@ then
     echo "Stage back compute node log file"
     # Although SSH implicitly adds a username, sync requires
     # explicit listing of the username.
-    rsync ${WFP_wuser}@${WFP_whost}:~/std.out.${WFP_whost} ./
+    rsync ${WFP_wuser}@${WFP_whost}:${WFP_rundir}/std.out.${WFP_whost} ./
 else
     echo "Run on the head node: cd rundir; runcmd"
     ssh -f ${ssh_options} $WFP_wuser@$WFP_whost "cd ${WFP_rundir}; ${WFP_runcmd}; sleep ${WFP_sleep_time}; echo Runcmd done2 >> ~/job.exit"
