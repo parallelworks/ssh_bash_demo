@@ -138,7 +138,7 @@ then
     n_jobs="2"
     while [ $n_jobs -gt 1 ]
     do
-	n_jobs=$(ssh ${ssh_options} $WFP_wuser@$WFP_whost squeue | wc -l )
+	n_jobs=$(ssh ${ssh_options} $WFP_wuser@$WFP_whost squeue -u $WFP_wuser | wc -l )
 	echod "Found "${n_jobs}" lines in squeue."
 	echod "Will wait "${WFP_sleep_time}" seconds."
 	sleep ${WFP_sleep_time}
