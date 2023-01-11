@@ -1,5 +1,5 @@
 {
-    "repo": "https://github.com/parallelworks/ssh_bash_demo.git",
+    "repo": "https://github.com/parallelworks/benchmark_demo.git",
     "branch": "main",
     "dir": ".",
     "xml": "workflow.xml",
