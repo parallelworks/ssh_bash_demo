@@ -70,7 +70,7 @@ env | grep WFP_
 
 # Testing echod
 echod Testing echod. Currently on `hostname`.
-echod Will excute as $PW_USER@$WFP_whost
+echod Will excute as $WFP_whost
 
 #===============================
 # Run things
