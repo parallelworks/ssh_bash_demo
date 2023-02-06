@@ -101,6 +101,9 @@ echo "submitting batch job..."
 jobid=$(${sshcmd} "sbatch -N ${WFP_nnodes} --ntasks-per-node=${WFP_ppn} ${WFP_jobscript};echo Runcmd done2 >> ~/job.exit" | tail -1 | awk -F ' ' '{print $4}')
 echo "JOB ID: ${jobid}"
 
+# Prepare kill script
+echo "${sshcmd} \"scancel ${jobid}\"" > kill.sh
+
 # Job status file writen by remote script:
 while true; do    
     # squeue won't give you status of jobs that are not running or waiting to run
