@@ -60,6 +60,11 @@ echod() {
 # Convert command line inputs to environment variables.
 f_read_cmd_args $@
 
+# Get workflow host:
+WFP_whost=$(cat pw.conf | grep sites | grep -o -P '(?<=\[).*?(?=\])').clusters.pw
+# Expand into user@ip (not necessary in this case but makes workflow faster)
+WFP_whost=$(${CONDA_PYTHON_EXE} /swift-pw-bin/utils/cluster-ip-api-wrapper.py ${WFP_whost})
+
 # List of input arguments converted to environment vars:
 env | grep WFP_
 
