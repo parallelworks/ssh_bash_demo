@@ -87,10 +87,6 @@ echo
 # work directory, then launching the job). Sleep commands are inserted to
 # simulate long running jobs.
 
-# Start an SSH mulitplex connection.  This may help prevent SSH timeouts
-# (see below). -f => run in background, -N => do not execute any command
-#ssh -f -N $WFP_whost
-
 echod "Check connection to cluster"
 # This line works, but since it uses srun, it will launch
 # a worker node.  This slows down testing/adds additional
@@ -126,8 +122,5 @@ done
 
 # copy the job output file back to the workflow run dir
 scp ${WFP_whost}:${HOME}/slurm_job_${jobid}.out ${jobdir}
-
-# Disconnect SSH Multiplex connection
-#ssh -O exit $WFP_whost
 
 echo Done!
