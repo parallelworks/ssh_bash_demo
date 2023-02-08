@@ -89,7 +89,7 @@ echo
 
 # Start an SSH mulitplex connection.  This may help prevent SSH timeouts
 # (see below). -f => run in background, -N => do not execute any command
-ssh -f -N $WFP_whost
+#ssh -f -N $WFP_whost
 
 echod "Check connection to cluster"
 # This line works, but since it uses srun, it will launch
@@ -128,6 +128,6 @@ done
 scp ${WFP_whost}:${HOME}/slurm_job_${jobid}.out ${jobdir}
 
 # Disconnect SSH Multiplex connection
-ssh -O exit $WFP_whost
+#ssh -O exit $WFP_whost
 
 echo Done!
