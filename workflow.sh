@@ -103,7 +103,7 @@ sshcmd="ssh -f ${ssh_options} $WFP_whost"
 ${sshcmd} hostname
 
 echo "submitting batch job..."
-jobid=$(${sshcmd} "sbatch -o /tmp/workflow_run_%j.out -e /tmp/workflow_run_%j.out -N ${WFP_nnodes} --ntasks-per-node=${WFP_ppn} ${WFP_jobscript};echo Runcmd done2 >> ~/job.exit" | tail -1 | awk -F ' ' '{print $4}')
+jobid=$(${sshcmd} "sbatch -o ${HOME}/slurm_job_%j.out -e /${HOME}/slurm_job_%j.out -N ${WFP_nnodes} --ntasks-per-node=${WFP_ppn} ${WFP_jobscript};echo Runcmd done2 >> ~/job.exit" | tail -1 | awk -F ' ' '{print $4}')
 echo "JOB ID: ${jobid}"
 
 # Prepare kill script
@@ -125,7 +125,7 @@ while true; do
 done
 
 # copy the job output file back to the workflow run dir
-scp ${WFP_whost}:/tmp/workflow_run_${jobid}.out ${jobdir}
+scp ${WFP_whost}:${HOME}/slurm_job_${jobid}.out ${jobdir}
 
 # Disconnect SSH Multiplex connection
 ssh -O exit $WFP_whost
