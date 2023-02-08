@@ -6,7 +6,7 @@
 # Exit if any command fails!
 # Sometimes workflow runs fine but there are SSH problems.
 # This line is useful for debugging but can be commented out.
-set -e
+set -ex
 
 # Useful info for context
 date
@@ -60,12 +60,17 @@ echod() {
 # Convert command line inputs to environment variables.
 f_read_cmd_args $@
 
+# Get workflow host:
+WFP_whost=$(cat pw.conf | grep sites | grep -o -P '(?<=\[).*?(?=\])').clusters.pw
+# Expand into user@ip (not necessary in this case but makes workflow faster)
+WFP_whost=$(${CONDA_PYTHON_EXE} /swift-pw-bin/utils/cluster-ip-api-wrapper.py ${WFP_whost})
+
 # List of input arguments converted to environment vars:
 env | grep WFP_
 
 # Testing echod
 echod Testing echod. Currently on `hostname`.
-echod Will excute as $PW_USER@$WFP_whost
+echod Will excute as $WFP_whost
 
 #===============================
 # Run things
@@ -94,10 +99,30 @@ echod "Check connection to cluster"
 #ssh -f ${ssh_options} $WFP_whost srun -n 1 hostname
 #
 # This command only talks to the head node
-ssh -f ${ssh_options} $WFP_whost hostname
+sshcmd="ssh -f ${ssh_options} $WFP_whost"
+${sshcmd} hostname
 
 echo "submitting batch job..."
-ssh -f ${ssh_options} $WFP_whost "sbatch -N ${WFP_nnodes} --ntasks-per-node=${WFP_ppn} ${WFP_jobscript};echo Runcmd done2 >> ~/job.exit"
+jobid=$(${sshcmd} "sbatch -N ${WFP_nnodes} --ntasks-per-node=${WFP_ppn} ${WFP_jobscript};echo Runcmd done2 >> ~/job.exit" | tail -1 | awk -F ' ' '{print $4}')
+echo "JOB ID: ${jobid}"
+
+# Prepare kill script
+echo "${sshcmd} \"scancel ${jobid}\"" > kill.sh
+
+# Job status file writen by remote script:
+while true; do    
+    # squeue won't give you status of jobs that are not running or waiting to run
+    # qstat returns the status of all recent jobs
+    job_status=$($sshcmd squeue | grep ${jobid} | awk '{print $5}')
+    # If job status is empty job is no longer running
+    if [ -z ${job_status} ]; then
+        job_status=$($sshcmd "sacct -j ${jobid}  --format=state" | tail -n1)
+        echo "JOB STATUS: ${job_status}"
+        break
+    fi
+    echo "JOB STATUS: ${job_status}"
+    sleep 60
+done
 
 # Disconnect SSH Multiplex connection
 ssh -O exit $WFP_whost
