@@ -35,6 +35,16 @@
                width="25%_none"
                float="right">
         </param>
+        <when value="Built-in">
+          <param name='jobscript'
+                 label='Select benchmark'
+                 type='select'
+                 help='Select which built-in benchmark to run.'
+                 width='50%_none'>
+            <option value="minimal" selected="true">Minimal</option>
+            <option value="normal" selected="true">Normal</option>
+          </param>
+        </when>
         <when value="Custom">
           <param name='jobscript'
                  label='Path to job script'
