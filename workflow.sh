@@ -112,6 +112,10 @@ if [ "${WFP_jsource_cond}" = "Built-in" ]; then
   scp ${jobdir}/wfenv.sh ${WFP_whost}:${HOME}
 fi
 
+echo "debugging..."
+echo "job script is: $WFP_jobscript"
+echo "module is: ${WFP_module}"
+
 echo "submitting batch job..."
 jobid=$(${sshcmd} "sbatch -o ${HOME}/slurm_job_%j.out -e /${HOME}/slurm_job_%j.out -N ${WFP_nnodes} --ntasks-per-node=${WFP_ppn} ${WFP_jobscript};echo Runcmd done2 >> ~/job.exit" | tail -1 | awk -F ' ' '{print $4}')
 echo "JOB ID: ${jobid}"
