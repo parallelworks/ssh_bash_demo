@@ -40,9 +40,10 @@
                  label='Select benchmark'
                  type='select'
                  help='Select which built-in benchmark to run.'
+                 multiple='false'
                  width='50%_none'>
-            <option value="minimal" selected="true">Minimal</option>
-            <option value="normal" selected="true">Normal</option>
+            <option value="standard" selected="true">Normal</option>
+            <option value="minimal">Minimal</option>
           </param>
         </when>
         <when value="Custom">

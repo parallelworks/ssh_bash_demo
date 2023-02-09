@@ -100,11 +100,11 @@ ${sshcmd} hostname
 
 echo "setting up env file..."
 if [ "${WFP_module}" = "18.0.5.274" ]; then
-  ${sshcmd} echo "module load intel" > wfenv.sh
-  ${sshcmd} echo "module load impi" >> wfenv.sh
+  echo "module load intel" > ${jobdir}/wfenv.sh
+  echo "module load impi" >> ${jobdir}/wfenv.sh
 else
-  ${sshcmd} echo "module load intel/${WFP_module}" > wfenv.sh
-  ${sshcmd} echo "module load impi/${WFP_module}" >> wfenv.sh
+  echo "module load intel/${WFP_module}" > ${jobdir}/wfenv.sh
+  echo "module load impi/${WFP_module}" >> ${jobdir}/wfenv.sh
 fi
 scp ${jobdir}/wfenv.sh ${WFP_whost}:${HOME}
 

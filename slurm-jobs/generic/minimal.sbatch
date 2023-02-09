@@ -5,9 +5,8 @@
 #SBATCH -o /home/Matt.Long/run_bench_%j.out
 #SBATCH -e /home/Matt.Long/run_bench_%j.out
 
-# load intel modules
-module load intel/2022.1.2
-module load impi/2022.1.2
+# source wfenf to load intel modules
+source wfenv.sh
 
 # build ior and mdtest
 # install prerequisites

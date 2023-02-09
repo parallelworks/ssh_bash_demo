@@ -5,9 +5,8 @@
 #SBATCH -o /home/Matt.Long/run_bench_%j.out
 #SBATCH -e /home/Matt.Long/run_bench_%j.out
 
-# load intel modules
-module load intel/2022.1.2
-module load impi/2022.1.2
+# source wfenf to load intel modules
+source wfenv.sh
 
 # build ior and mdtest
 # install prerequisites
@@ -39,8 +38,8 @@ cp $HOME/ior/src/mdtest /lustre/bench/mdtest/bin/mdtest
 # run intel mpi test
 mpirun -ppn $SLURM_CPUS_ON_NODE IMB-MPI1 alltoall
 
-# normal ior
+# standard ior
 mpirun -ppn $SLURM_CPUS_ON_NODE /lustre/bench/ior/bin/ior -w -i 3 -o /lustre/bench/ior/run/out -t 64m -b 64m -s 16 -F -C -e
 
-# normal mdtest 
+# standard mdtest 
 mpirun -ppn $SLURM_CPUS_ON_NODE /lustre/bench/mdtest/bin/mdtest -n 20840 -e 4096 -w 4096 -i 3 -u -d /lustre/bench/mdtest/run
