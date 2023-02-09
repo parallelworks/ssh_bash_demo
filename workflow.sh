@@ -99,8 +99,13 @@ sshcmd="ssh -f ${ssh_options} $WFP_whost"
 ${sshcmd} hostname
 
 echo "setting up env file..."
-${sshcmd} echo "module load intel/${WFP_module}" > wfenv.sh
-${sshcmd} echo "module load impi/${WFP_module}" >> wfenv.sh
+if [ "${WFP_module}" = "18.0.5.274" ]; then
+  ${sshcmd} echo "module load intel" > wfenv.sh
+  ${sshcmd} echo "module load impi" > wfenv.sh
+else
+  ${sshcmd} echo "module load intel/${WFP_module}" > wfenv.sh
+  ${sshcmd} echo "module load impi/${WFP_module}" >> wfenv.sh
+fi
 scp ${jobdir}/wfenv.sh ${WFP_whost}:${HOME}
 
 echo "submitting batch job..."
