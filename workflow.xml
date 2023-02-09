@@ -22,7 +22,7 @@
              help='select Intel module version to use'
              width='50%_none'>
         <option value="18.0.5.274" selected="true">Intel 2018</option>
-        <option value="2022.1.2" selected="true">Intel 2022</option>
+        <option value="2022.1.2">Intel 2022</option>
       </param>
       <conditional name="jsource_cond">
         <param name='jsource'
@@ -42,7 +42,7 @@
                  help='Select which built-in benchmark to run.'
                  multiple='false'
                  width='50%_none'>
-            <option value="standard" selected="true">Normal</option>
+            <option value="standard" selected="true">Standard</option>
             <option value="minimal">Minimal</option>
           </param>
         </when>
