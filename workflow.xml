@@ -1,4 +1,4 @@
-<tool id='placeholder_id' name='placeholder_name'>
+<tool id='Matt.Long_benchmark' name='Matt.Long_benchmark'>
   <command interpreter='bash'>workflow.sh</command>
   <inputs>
     <section name='commands' type='section' conditional='[object Object],[object Object]' title='Commands' expanded='true'>
@@ -15,6 +15,14 @@
              value='2'
              help='Number of mpi tasks to run per node'
              width='50%_none'>
+      </param>
+      <param name='module'
+             label='Intel module version'
+             type='select'
+             help='select Intel module version to use'
+             width='50%_none'>
+        <option value="18.0.5.274" selected="true">Intel 2018</option>
+        <option value="2022.1.2" selected="true">Intel 2022</option>
       </param>
       <param name='jobscript'
              label='Path to job script'
