@@ -99,8 +99,9 @@ sshcmd="ssh -f ${ssh_options} $WFP_whost"
 ${sshcmd} hostname
 
 echo "setting up env file..."
-${sshcmd} echo "module load intel/$module" > wfenv.sh
-${sshcmd} echo "module load impi/$module" >> wfenv.sh
+${sshcmd} echo "module load intel/${WFP_module}" > wfenv.sh
+${sshcmd} echo "module load impi/${WFP_module}" >> wfenv.sh
+scp ${jobdir}/wfenv.sh ${WFP_whost}:${HOME}
 
 echo "submitting batch job..."
 jobid=$(${sshcmd} "sbatch -o ${HOME}/slurm_job_%j.out -e /${HOME}/slurm_job_%j.out -N ${WFP_nnodes} --ntasks-per-node=${WFP_ppn} ${WFP_jobscript};echo Runcmd done2 >> ~/job.exit" | tail -1 | awk -F ' ' '{print $4}')
