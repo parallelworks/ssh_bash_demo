@@ -31,7 +31,8 @@
                help='Use job included with workflow or provide your own'
                truevalue="Built-in"
                falsevalue="Custom"
-               checked="True"
+               multiple='false'
+               optional='false'
                width="25%_none"
                float="right">
         </param>
