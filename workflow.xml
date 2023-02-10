@@ -21,14 +21,14 @@
                label='Job source'
                type='boolean'
                help='Use job included with workflow or provide your own'
-               truevalue="Built-in"
+               truevalue="Builtin"
                falsevalue="Custom"
                multiple='false'
                optional='false'
                width="25%_none"
                float="right">
         </param>
-        <when value="Built-in">
+        <when value="Builtin">
           <param name='builtin'
                  label='Select benchmark'
                  type='select'
