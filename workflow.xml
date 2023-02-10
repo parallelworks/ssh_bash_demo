@@ -1,7 +1,7 @@
 <tool id='Matt.Long_benchmark' name='Matt.Long_benchmark'>
   <command interpreter='bash'>workflow.sh</command>
   <inputs>
-    <section name='commands' type='section' conditional='[object Object],[object Object]' title='Commands' expanded='true'>
+    <section name='commands' type='section' title='Commands' expanded='true'>
       <param name='nnodes'
              label='Number of nodes'
              type='text'
