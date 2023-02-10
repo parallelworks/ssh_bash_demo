@@ -33,6 +33,7 @@
                falsevalue="Custom"
                multiple='false'
                optional='false'
+               checked="True"
                width="25%_none"
                float="right">
         </param>
