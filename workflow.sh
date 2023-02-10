@@ -98,7 +98,7 @@ echod "Check connection to cluster"
 sshcmd="ssh -f ${ssh_options} $WFP_whost"
 ${sshcmd} hostname
 
-if [ "${WFP_jsource_cond}" = "Built-in" ]; then
+if [ ! -z "${WFP_builtin}" ]; then
   WFP_jobscript=$(${WFP_builtin}.sbatch)
   scp ${jobdir}/slurm-jobs/generic/${WFP_jobscript} ${WFP_whost}:${HOME}
   echo "setting up env file..."
@@ -110,12 +110,13 @@ if [ "${WFP_jsource_cond}" = "Built-in" ]; then
     echo "module load impi/${WFP_module}" >> ${jobdir}/wfenv.sh
   fi
   scp ${jobdir}/wfenv.sh ${WFP_whost}:${HOME}
-elif [ "${WFP_jsource_cond}" = "Custom" ]; then
-  WFP_jobscript=$(${WFP_builtin})
+elif [ ! -z "${WFP_custom}"]; then
+  WFP_jobscript=$(${WFP_custom})
 fi
 
 echo "debugging..."
-echo "jsource condition is ${WFP_jsource_cond}"
+echo "builtin is ${WFP_builtin}"
+echo "custom is ${WFP_custom}"
 echo "job script is: $WFP_jobscript"
 echo "module is: ${WFP_module}"
 
