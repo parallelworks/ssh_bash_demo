@@ -30,7 +30,7 @@
         </param>
         <when value="Built-in">
           <param name='jobscript'
-                 label='Select benchmark'
+                 label='Select benchmarks'
                  type='select'
                  help='Select which built-in benchmark to run.'
                  multiple='false'
