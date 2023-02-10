@@ -29,8 +29,8 @@
                float="right">
         </param>
         <when value="Built-in">
-          <param name='jobscript'
-                 label='Select benchmarks'
+          <param name='builtin'
+                 label='Select benchmark'
                  type='select'
                  help='Select which built-in benchmark to run.'
                  multiple='false'
@@ -48,7 +48,7 @@
           </param>
         </when>
         <when value="Custom">
-          <param name='jobscript'
+          <param name='custom'
                  label='Path to job script'
                  type='text'
                  value='/path/to/job'
