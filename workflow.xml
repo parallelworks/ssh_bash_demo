@@ -25,7 +25,6 @@
                falsevalue="Custom"
                multiple='false'
                optional='false'
-               checked="True"
                width="25%_none"
                float="right">
         </param>
@@ -36,7 +35,7 @@
                  help='Select which built-in benchmark to run.'
                  multiple='false'
                  width='50%_none'>
-            <option value="standard" selected="true">Standard</option>
+            <option value="standard">Standard</option>
             <option value="minimal">Minimal</option>
           </param>
           <param name='module'
@@ -44,7 +43,7 @@
                  type='select'
                  help='select Intel module version to use'
                  width='50%_none'>
-            <option value="18.0.5.274" selected="true">Intel 2018</option>
+            <option value="18.0.5.274">Intel 2018</option>
             <option value="2022.1.2">Intel 2022</option>
           </param>
         </when>
