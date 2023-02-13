@@ -1,4 +1,4 @@
-<tool id='Matt.Long_benchmark' name='Matt.Long_benchmark'>
+<tool id='Matt.Long_interactive_session' name='Matt.Long_interactive_session'>
   <command interpreter='bash'>workflow.sh</command>
   <inputs>
     <section name='commands' type='section' conditional='[object Object],[object Object]' title='Commands' expanded='true'>

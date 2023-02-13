@@ -110,15 +110,21 @@ ${sshcmd} hostname
 #    echo "module load impi/${WFP_module}" >> ${jobdir}/wfenv.sh
 #  fi
 #  scp ${jobdir}/wfenv.sh ${WFP_whost}:${HOME}
-#elif [ ! -z "${WFP_custom}"]; then
-#  WFP_jobscript=$(${WFP_custom})
-#fi
-
-echo "debugging..."
-echo "builtin is ${WFP_builtin}"
-echo "custom is ${WFP_custom}"
-echo "job script is: $WFP_jobscript"
-echo "module is: ${WFP_module}"
+if [ "${WFP_jsource}" = "True"  ]; then
+  WFP_jobscript=${WFP_builtin}.sbatch
+  scp ${jobdir}/slurm-jobs/generic/${WFP_jobscript} ${WFP_whost}:${HOME}
+  echo "setting up env file..."
+  if [ "${WFP_module}" = "18.0.5.274" ]; then
+    echo "module load intel" > ${jobdir}/wfenv.sh
+    echo "module load impi" >> ${jobdir}/wfenv.sh
+  else
+    echo "module load intel/${WFP_module}" > ${jobdir}/wfenv.sh
+    echo "module load impi/${WFP_module}" >> ${jobdir}/wfenv.sh
+  fi
+  scp ${jobdir}/wfenv.sh ${WFP_whost}:${HOME}
+elif [ "${WFP_jsource}" = "False"  ]; then
+  WFP_jobscript=${WFP_custom}
+fi
 
 echo "submitting batch job..."
 jobid=$(${sshcmd} "sbatch -o ${HOME}/slurm_job_%j.out -e /${HOME}/slurm_job_%j.out -N ${WFP_nnodes} --ntasks-per-node=${WFP_ppn} ${WFP_jobscript};echo Runcmd done2 >> ~/job.exit" | tail -1 | awk -F ' ' '{print $4}')
