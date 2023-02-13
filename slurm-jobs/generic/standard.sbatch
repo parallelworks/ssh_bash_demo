@@ -8,6 +8,10 @@
 # source wfenf to load intel modules
 source wfenv.sh
 
+# verify environment
+echo "verifying loaded modules..."
+module list
+
 # build ior and mdtest
 # install prerequisites
 sudo yum -y install automake
