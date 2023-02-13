@@ -111,7 +111,7 @@ ${sshcmd} hostname
 #  fi
 #  scp ${jobdir}/wfenv.sh ${WFP_whost}:${HOME}
 if [ "${WFP_jsource}" = "False"  ]; then
-  WFP_jobscript=$(${WFP_custom})
+  WFP_jobscript=${WFP_custom}
 fi
 
 echo "debugging..."
