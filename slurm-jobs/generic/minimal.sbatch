@@ -29,22 +29,19 @@ make clean && make
 # test build
 mpirun ./src/ior
 
-# clean up old dir
-rm -rf /lustre/bench
-
 # run dir setup
-mkdir -p /lustre/bench/ior/bin /lustre/bench/ior/run
-mkdir -p /lustre/bench/mdtest/bin /lustre/bench/mdtest/run
+mkdir -p /lustre/bench/ior/bin_$SLURM_JOBID /lustre/bench/ior/run_$SLURM_JOBID
+mkdir -p /lustre/bench/mdtest/bin_$SLURM_JOBID /lustre/bench/mdtest/run_$SLURM_JOBID
 
 # copy executables to lustre 
-cp $HOME/ior/src/ior /lustre/bench/ior/bin/ior
-cp $HOME/ior/src/mdtest /lustre/bench/mdtest/bin/mdtest
+cp $HOME/ior/src/ior /lustre/bench/ior/bin_$SLURM_JOBID/ior
+cp $HOME/ior/src/mdtest /lustre/bench/mdtest/bin_$SLURM_JOBID/mdtest
 
 # run intel mpi test
 mpirun -ppn $SLURM_CPUS_ON_NODE IMB-MPI1 alltoall
 
 # small ior
-mpirun -ppn $SLURM_CPUS_ON_NODE /lustre/bench/ior/bin/ior -w -i 1 -o /lustre/bench/ior/run/out -t 1m -b 16m -s 16 -F -C -e
+mpirun -ppn $SLURM_CPUS_ON_NODE /lustre/bench/ior/bin_$SLURM_JOBID/ior -w -i 1 -o /lustre/bench/ior/run_$SLURM_JOBID/out -t 1m -b 16m -s 16 -F -C -e
 
 # small mdtest 
-mpirun -ppn $SLURM_CPUS_ON_NODE /lustre/bench/mdtest/bin/mdtest -n 20840 -i 1 -u -d /lustre/bench/mdtest/run
+mpirun -ppn $SLURM_CPUS_ON_NODE /lustre/bench/mdtest/bin_$SLURM_JOBID/mdtest -n 20840 -i 1 -u -d /lustre/bench/mdtest/run_$SLURM_JOBID
