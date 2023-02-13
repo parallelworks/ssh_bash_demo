@@ -1,8 +1,0 @@
-{
-    "repo": "https://github.com/parallelworks/benchmark_demo.git",
-    "branch": "main",
-    "dir": ".",
-    "xml": "workflow.xml",
-    "thumbnail": "thumb/128x128.png",
-    "readme": "README.md"
-}
