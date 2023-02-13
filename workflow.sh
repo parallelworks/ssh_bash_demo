@@ -126,12 +126,6 @@ elif [ "${WFP_jsource}" = "False"  ]; then
   WFP_jobscript=${WFP_custom}
 fi
 
-echo "debugging..."
-echo "builtin is ${WFP_builtin}"
-echo "custom is ${WFP_custom}"
-echo "job script is: $WFP_jobscript"
-echo "module is: ${WFP_module}"
-
 echo "submitting batch job..."
 jobid=$(${sshcmd} "sbatch -o ${HOME}/slurm_job_%j.out -e /${HOME}/slurm_job_%j.out -N ${WFP_nnodes} --ntasks-per-node=${WFP_ppn} ${WFP_jobscript};echo Runcmd done2 >> ~/job.exit" | tail -1 | awk -F ' ' '{print $4}')
 echo "JOB ID: ${jobid}"
