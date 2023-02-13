@@ -16,23 +16,48 @@
              help='Number of mpi tasks to run per node'
              width='50%_none'>
       </param>
-      <param name='jobscript'
-             label='Select benchmark'
-             type='select'
-             help='Select which built-in benchmark to run.'
-             multiple='false'
-             width='50%_none'>
-        <option value="standard" selected="true">Standard</option>
-        <option value="minimal">Minimal</option>
-      </param>
-      <param name='module'
-             label='Intel module version'
-             type='select'
-             help='select Intel module version to use'
-             width='50%_none'>
-        <option value="18.0.5.274" selected="true">Intel 2018</option>
-        <option value="2022.1.2">Intel 2022</option>
-      </param>
+      <conditional name="jsource_cond">
+        <param name='jsource'
+               label='Job source'
+               type='boolean'
+               help='Use job included with workflow or provide your own'
+               truevalue="Built-in"
+               falsevalue="Custom"
+               multiple='false'
+               optional='false'
+               checked="True"
+               width="25%_none"
+               float="right">
+        </param>
+        <when value="Built-in">
+          <param name='builtin'
+                 label='Select benchmark'
+                 type='select'
+                 help='Select which built-in benchmark to run.'
+                 multiple='false'
+                 width='50%_none'>
+            <option value="standard" selected="true">Standard</option>
+            <option value="minimal">Minimal</option>
+          </param>
+          <param name='module'
+                 label='Intel module version'
+                 type='select'
+                 help='select Intel module version to use'
+                 width='50%_none'>
+            <option value="18.0.5.274" selected="true">Intel 2018</option>
+            <option value="2022.1.2">Intel 2022</option>
+          </param>
+        </when>
+        <when value="Custom">
+          <param name='custom'
+                 label='Path to job script'
+                 type='text'
+                 value='/path/to/job'
+                 help='Path to the job file on the host. In general, the compute nodes have access to this directory.'
+                 width='50%_none'>
+          </param>
+        </when>
+      </conditional>
     </section>
   </inputs>
   <outputs>
