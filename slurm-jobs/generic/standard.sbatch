@@ -4,7 +4,6 @@
 #SBATCH --ntasks-per-node=4
 #SBATCH -o /home/Matt.Long/run_bench_%j.out
 #SBATCH -e /home/Matt.Long/run_bench_%j.out
-#SBATCH --exclusive
 
 # source wfenf to load intel modules
 source wfenv.sh
