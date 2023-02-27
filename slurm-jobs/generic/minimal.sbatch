@@ -50,6 +50,9 @@ PREFIX=$(echo $SLURM_JOB_NODELIST | awk -F[ '{print $1}')
 SNODE=$PREFIX$(echo $SLURM_JOB_NODELIST | awk -F[ '{print $2}' | tr -d ] | awk -F- '{print $1}')
 CNODE=$PREFIX$(echo $SLURM_JOB_NODELIST | awk -F[ '{print $2}' | tr -d ] | awk -F- '{print $2}')
 
+IPTHREAD=$(expr $SLURM_NTASKS_PER_NODE / 2)
+
+
 # Check if iperf is installed and install if needed
 if ! command -v iperf &> /dev/null; then
     echo "iperf not found, installing..."
@@ -61,5 +64,5 @@ iperf -s &
 
 # run iperf on CNODE
 ssh $CNODE sudo yum -y install iperf
-ssh $CNODE iperf -t 30 -c $SNODE -P 16
+ssh $CNODE iperf -t 30 -c $SNODE -P $IPTHREAD
 killall iperf
