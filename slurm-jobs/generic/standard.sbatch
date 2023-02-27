@@ -45,14 +45,21 @@ mpirun -ppn $SLURM_CPUS_ON_NODE /lustre/bench/ior/bin_$SLURM_JOBID/ior -w -i 3 -
 # standard mdtest 
 mpirun -ppn $SLURM_CPUS_ON_NODE /lustre/bench/mdtest/bin_$SLURM_JOBID/mdtest -n 20840 -e 4096 -w 4096 -i 3 -u -d /lustre/bench/mdtest/run_$SLURM_JOBID
 
+# Get server node and client node
+PREFIX=$(echo $SLURM_JOB_NODELIST | awk -F[ '{print $1}')
+SNODE=$PREFIX$(echo $SLURM_JOB_NODELIST | awk -F[ '{print $2}' | tr -d ] | awk -F- '{print $1}')
+CNODE=$PREFIX$(echo $SLURM_JOB_NODELIST | awk -F[ '{print $2}' | tr -d ] | awk -F- '{print $2}')
+
 # Check if iperf is installed and install if needed
 if ! command -v iperf &> /dev/null; then
     echo "iperf not found, installing..."
     sudo yum -y install iperf
 fi
 
-# start iperf server
-iperf -s
+# start iperf server on SNODE
+iperf -s &
 
-# run iperf test
-iperf -t 30 -c $host -P 16 > /home/Matt.Long/run_bench_%j.out
+# run iperf on CNODE
+ssh $CNODE sudo yum -y install iperf
+ssh $CNODE iperf -t 30 -c $SNODE -P 16
+killall iperf
