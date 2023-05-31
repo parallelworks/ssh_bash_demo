@@ -11,7 +11,7 @@
       </param>
       <param name='whost'
 	     label='Workflow host'
-	     type='text'
+	     type='computeResource'
 	     value='cloud.clusters.pw'
 	     help='Use PoolName.clusters.pw for cloud clusters or user@host_ip otherwise'
 	     width='50%_none'>
