@@ -6,7 +6,7 @@
 # Exit if any command fails!
 # Sometimes workflow runs fine but there are SSH problems.
 # This line is useful for debugging but can be commented out.
-set -e
+set -ex
 
 # Useful info for context
 date
